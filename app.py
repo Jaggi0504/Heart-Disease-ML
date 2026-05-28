@@ -49,7 +49,7 @@ def predict():
 
         return render_template(
             "index.html",
-            prediction_text=f"Prediction: {prediction[0]}"
+            prediction_text="Heart Disease" if prediction[0] == 1 else "No Heart Disease"
         )
 
     except Exception as e:

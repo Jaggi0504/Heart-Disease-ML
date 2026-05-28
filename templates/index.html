@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Heart Disease Prediction</title>
+
     <style>
       body {
         font-family: Arial;
@@ -44,6 +45,23 @@
         font-weight: bold;
         color: blue;
       }
+
+      table {
+        margin: auto;
+        border-collapse: collapse;
+        width: 80%;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #28a745;
+        color: white;
+      }
     </style>
   </head>
 
@@ -62,13 +80,13 @@
         <input
           type="text"
           name="cp"
-          placeholder="Chest Pain Type (cp)"
+          placeholder="Chest Pain Type"
           required
         /><br />
         <input
           type="text"
           name="trestbps"
-          placeholder="Resting Blood Pressure"
+          placeholder="Resting BP"
           required
         /><br />
         <input
@@ -86,19 +104,19 @@
         <input
           type="text"
           name="restecg"
-          placeholder="Resting ECG"
+          placeholder="Rest ECG"
           required
         /><br />
         <input
           type="text"
           name="thalach"
-          placeholder="Max Heart Rate (thalach)"
+          placeholder="Max Heart Rate"
           required
         /><br />
         <input
           type="text"
           name="exang"
-          placeholder="Exercise Induced Angina"
+          placeholder="Exercise Angina"
           required
         /><br />
         <input
@@ -108,18 +126,33 @@
           required
         /><br />
         <input type="text" name="slope" placeholder="Slope" required /><br />
-        <input
-          type="text"
-          name="ca"
-          placeholder="Number of major vessels (ca)"
-          required
-        /><br />
+        <input type="text" name="ca" placeholder="CA" required /><br />
         <input type="text" name="thal" placeholder="Thal" required /><br />
 
         <button type="submit">Predict</button>
       </form>
 
       <div class="result">{{ prediction_text }}</div>
+
+      {% if shap_table %}
+      <h3>Feature Contribution (SHAP)</h3>
+
+      <table>
+        <tr>
+          <th>Feature</th>
+          <th>Value</th>
+          <th>Impact (SHAP)</th>
+        </tr>
+
+        {% for row in shap_table %}
+        <tr>
+          <td>{{ row.feature }}</td>
+          <td>{{ row.value }}</td>
+          <td>{{ row.shap_value }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
     </div>
   </body>
 </html>
