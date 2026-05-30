@@ -5,12 +5,6 @@ import os
 
 app = Flask(__name__)
 
-# Show current directory
-print("Current directory:", os.getcwd())
-
-# Full path to model
-model_path = os.path.abspath("model.pkl")
-print("Loading model from:", model_path)
 
 # Load model ONCE
 model = joblib.load(model_path)
@@ -24,7 +18,6 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # Feature order MUST match training data
         features = [
             float(request.form["age"]),
             float(request.form["sex"]),
@@ -41,10 +34,8 @@ def predict():
             float(request.form["thal"])
         ]
 
-        # Convert to numpy array
         final_input = np.array([features])
 
-        # Prediction
         prediction = model.predict(final_input)
 
         return render_template(
